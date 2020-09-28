@@ -1,1 +1,40 @@
-<p>word-detail works!</p>
+<div class="example-container mat-elevation-z8">
+  <h2>Word Detail</h2>
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/']"
+      ><mat-icon>list</mat-icon></a
+    >
+  </div>
+  <mat-card class="example-card">
+    <mat-card-header>
+      <mat-card-title
+        ><h2>{{ word.name }}</h2></mat-card-title
+      >
+    </mat-card-header>
+    <mat-card-content>
+      <dl>
+        <dt>ID:</dt>
+        <dd>{{ word.id }}</dd>
+        <dt>Pronunciation:</dt>
+        <dd>{{ word.pronunciation }}</dd>
+        <dt>Meaning:</dt>
+        <dd>{{ word.meaning }}</dd>
+        <dt>Updated:</dt>
+        <dd>{{ word.updated | date }}</dd>
+        <dt>Created:</dt>
+        <dd>{{ word.created | date }}</dd>
+      </dl>
+    </mat-card-content>
+    <mat-card-actions>
+      <a mat-flat-button color="primary" [routerLink]="['/edit-word', word.id]"
+        ><mat-icon>edit</mat-icon> Word</a
+      >
+      <a mat-flat-button color="warn" (click)="deleteWord(word.id)"
+        ><mat-icon>delete</mat-icon> Word</a
+      >
+    </mat-card-actions>
+  </mat-card>
+</div>
