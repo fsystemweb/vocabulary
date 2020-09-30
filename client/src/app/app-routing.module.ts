@@ -26,6 +26,7 @@ const routes: Routes = [
     component: EditWordComponent,
     data: { title: 'Edit Word' },
   },
+  { path: '', redirectTo: '/list', pathMatch: 'full' },
 ];
 
 @NgModule({

@@ -16,7 +16,7 @@ export class WordDetailComponent implements OnInit {
     id: '',
     name: '',
     pronunciation: '',
-    meaning: null,
+    meaning: '',
     updated: null,
     created: null,
   };

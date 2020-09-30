@@ -11,12 +11,12 @@ import { Word } from '../models/Word';
 @Injectable({
   providedIn: 'root',
 })
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-};
-const apiUrl = 'http://localhost:3000/api/';
-
 export class ApiService {
+  httpOptions = {
+    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+  };
+  apiUrl = 'http://localhost:3000/api/';
+
   constructor(private http: HttpClient) {}
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -28,12 +28,12 @@ export class ApiService {
 
   getWords(): Observable<Word[]> {
     return this.http
-      .get<Word[]>(`${apiUrl}`)
+      .get<Word[]>(`${this.apiUrl}`)
       .pipe(catchError(this.handleError('getWords', [])));
   }
 
   getWordById(id: string): Observable<Word> {
-    const url = `${apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http
       .get<Word>(url)
       .pipe(catchError(this.handleError<Word>(`getWordById id=${id}`)));
@@ -41,21 +41,21 @@ export class ApiService {
 
   addWord(word: Word): Observable<Word> {
     return this.http
-      .post<Word>(apiUrl, word, httpOptions)
+      .post<Word>(this.apiUrl, word, this.httpOptions)
       .pipe(catchError(this.handleError<Word>('addWord')));
   }
 
   updateWord(id: string, word: Word): Observable<any> {
-    const url = `${apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http
-      .put(url, word, httpOptions)
+      .put(url, word, this.httpOptions)
       .pipe(catchError(this.handleError<any>('updateWord')));
   }
 
   deleteWord(id: string): Observable<Word> {
-    const url = `${apiUrl}/${id}`;
+    const url = `${this.apiUrl}/${id}`;
     return this.http
-      .delete<Word>(url, httpOptions)
+      .delete<Word>(url, this.httpOptions)
       .pipe(catchError(this.handleError<Word>('deleteWord')));
   }
 }
