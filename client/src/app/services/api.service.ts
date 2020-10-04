@@ -1,61 +1,34 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
+import { catchError } from 'rxjs/operators';
 import { Word } from '../models/Word';
+import { vocabularyList } from '../data/vocabulary';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
-  apiUrl = 'http://localhost:3000/api/';
-
-  constructor(private http: HttpClient) {}
-
-  private handleError<T>(operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-      console.error(error);
-      return of(result as T);
-    };
-  }
+  constructor() {}
 
   getWords(): Observable<Word[]> {
-    return this.http
-      .get<Word[]>(`${this.apiUrl}`)
-      .pipe(catchError(this.handleError('getWords', [])));
+    return of(vocabularyList);
   }
 
   getWordById(id: string): Observable<Word> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http
-      .get<Word>(url)
-      .pipe(catchError(this.handleError<Word>(`getWordById id=${id}`)));
+    const word: Word = vocabularyList.find((element) => element.id === id);
+    return of(word);
   }
 
   addWord(word: Word): Observable<Word> {
-    return this.http
-      .post<Word>(this.apiUrl, word, this.httpOptions)
-      .pipe(catchError(this.handleError<Word>('addWord')));
+    return of(new Word());
   }
 
   updateWord(id: string, word: Word): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http
-      .put(url, word, this.httpOptions)
-      .pipe(catchError(this.handleError<any>('updateWord')));
+    return of(vocabularyList);
   }
 
   deleteWord(id: string): Observable<Word> {
-    const url = `${this.apiUrl}/${id}`;
-    return this.http
-      .delete<Word>(url, this.httpOptions)
-      .pipe(catchError(this.handleError<Word>('deleteWord')));
+    return of(new Word());
   }
 }

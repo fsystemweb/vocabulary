@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 
-import * as io from 'socket.io-client';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { MyErrorStateMatcher } from '../../util/MyErrorStateMatcher';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ErrorStateMatcher } from '@angular/material/core';
+import { Word } from 'src/app/models/Word';
 
 @Component({
   selector: 'app-edit-word',
@@ -13,8 +13,6 @@ import { ErrorStateMatcher } from '@angular/material/core';
   styleUrls: ['./edit-word.component.scss'],
 })
 export class EditWordComponent implements OnInit {
-  socket = io('http://localhost:4000');
-
   wordForm: FormGroup;
   _id = '';
   id = '';
@@ -34,19 +32,21 @@ export class EditWordComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.getWordById(this.route.snapshot.params.id);
     this.wordForm = this.formBuilder.group({
-      id: [null, Validators.required],
+      id: [{ value: '', disabled: true }, Validators.required],
       name: [null, Validators.required],
       pronunciation: [null, Validators.required],
       meaning: [null, Validators.required],
       updated: [null, Validators.required],
       created: [null, Validators.required],
     });
+
+    this.getWordById(this.route.snapshot.params.id);
   }
 
   getWordById(id: any) {
-    this.api.getWordById(id).subscribe((data: any) => {
+    this.api.getWordById(id).subscribe((data: Word) => {
+      console.log(data);
       this._id = data.id;
       this.wordForm.setValue({
         id: data.id,
@@ -65,7 +65,6 @@ export class EditWordComponent implements OnInit {
       (res: any) => {
         const id = res._id;
         this.isLoadingResults = false;
-        this.socket.emit('updatedata', res);
         this.router.navigate(['/word-details', id]);
       },
       (err: any) => {

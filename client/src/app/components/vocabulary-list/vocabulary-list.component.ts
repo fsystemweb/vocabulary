@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as io from 'socket.io-client';
 import { ApiService } from '../../services/api.service';
 import { Word } from '../../models/Word';
 
@@ -9,7 +8,6 @@ import { Word } from '../../models/Word';
   styleUrls: ['./vocabulary-list.component.scss'],
 })
 export class VocabularyListComponent implements OnInit {
-  socket = io('http://localhost:4000');
   displayedColumns: string[] = [
     'name',
     'pronunciation',
@@ -24,13 +22,6 @@ export class VocabularyListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWords();
-
-    this.socket.on(
-      'update-data',
-      function (data: any) {
-        this.getWords();
-      }.bind(this)
-    );
   }
 
   getWords() {

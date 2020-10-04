@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as io from 'socket.io-client';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { Word } from './../../models/Word';
@@ -10,8 +9,6 @@ import { Word } from './../../models/Word';
   styleUrls: ['./word-detail.component.scss'],
 })
 export class WordDetailComponent implements OnInit {
-  socket = io('http://localhost:4000');
-
   word: Word = {
     id: '',
     name: '',
@@ -30,13 +27,6 @@ export class WordDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.getWordDetail(this.route.snapshot.params.id);
-
-    this.socket.on(
-      'update-data',
-      function (data: any) {
-        this.getWordDetail();
-      }.bind(this)
-    );
   }
 
   getWordDetail(id: string) {
@@ -52,7 +42,6 @@ export class WordDetailComponent implements OnInit {
       (res) => {
         this.isLoadingResults = false;
         this.router.navigate(['/']);
-        this.socket.emit('updatedata', res);
       },
       (err) => {
         console.log(err);
