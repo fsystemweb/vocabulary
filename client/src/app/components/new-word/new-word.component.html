@@ -1,1 +1,94 @@
-<p>new-word works!</p>
+<div class="example-container mat-elevation-z8">
+  <h2>New Word</h2>
+  <div class="example-loading-shade" *ngIf="isLoadingResults">
+    <mat-spinner *ngIf="isLoadingResults"></mat-spinner>
+  </div>
+  <div class="button-row">
+    <a mat-flat-button color="primary" [routerLink]="['/']"
+      ><mat-icon>list</mat-icon></a
+    >
+  </div>
+  <mat-card class="example-card">
+    <form [formGroup]="wordForm" (ngSubmit)="onFormSubmit()">
+      <mat-form-field class="example-full-width">
+        <mat-label>ID</mat-label>
+        <input
+          matInput
+          placeholder="id"
+          formControlName="id"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error>
+          <span
+            *ngIf="
+              !wordForm.get('itemId').valid && wordForm.get('itemId').touched
+            "
+            >Please enter Item ID</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Name</mat-label>
+        <input
+          matInput
+          placeholder="Name"
+          formControlName="name"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error>
+          <span
+            *ngIf="!wordForm.get('name').valid && wordForm.get('name').touched"
+            >Please enter Name</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Pronunciation</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Pronunciation"
+          formControlName="pronunciation"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error>
+          <span
+            *ngIf="
+              !wordForm.get('pronunciation').valid &&
+              wordForm.get('pronunciation').touched
+            "
+            >Please enter Pronunciation</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+        <mat-label>Meaning</mat-label>
+        <input
+          matInput
+          type="text"
+          placeholder="Meaning"
+          formControlName="meaning"
+          [errorStateMatcher]="matcher"
+        />
+        <mat-error>
+          <span
+            *ngIf="
+              !wordForm.get('meaning').valid && wordForm.get('meaning').touched
+            "
+            >Please enter Item Qty</span
+          >
+        </mat-error>
+      </mat-form-field>
+      <div class="button-row">
+        <button
+          type="submit"
+          [disabled]="!wordForm.valid"
+          mat-flat-button
+          color="primary"
+        >
+          <mat-icon>save</mat-icon>
+        </button>
+      </div>
+    </form>
+  </mat-card>
+</div>

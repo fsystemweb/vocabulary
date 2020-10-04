@@ -16,7 +16,7 @@ app.use(cors());
 // add mongo
 var mongoose = require("mongoose");
 mongoose
-  .connect("mongodb://localhost/blog-cms", {
+  .connect("mongodb://localhost/vocabulary", {
     promiseLibrary: require("bluebird"),
     useNewUrlParser: true,
     useUnifiedTopology: true,
