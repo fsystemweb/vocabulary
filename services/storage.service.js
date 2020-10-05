@@ -8,8 +8,8 @@ const getStorage = function () {
 };
 
 const getNewId = function () {
-  const storage = getStorage();
-  if (storage.length == null) return 1;
+  const storage = this.getStorage();
+  if (storage.length == 0) return 1;
   const lastIndex = storage.length - 1;
   const lastWord = storage[lastIndex];
   return lastWord.id + 1;
