@@ -11,23 +11,6 @@
   <mat-card class="example-card">
     <form [formGroup]="wordForm" (ngSubmit)="onFormSubmit()">
       <mat-form-field class="example-full-width">
-        <mat-label>ID</mat-label>
-        <input
-          matInput
-          placeholder="id"
-          formControlName="id"
-          [errorStateMatcher]="matcher"
-        />
-        <mat-error>
-          <span
-            *ngIf="
-              !wordForm.get('itemId').valid && wordForm.get('itemId').touched
-            "
-            >Please enter Item ID</span
-          >
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="example-full-width">
         <mat-label>Name</mat-label>
         <input
           matInput

@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import * as io from 'socket.io-client';
 import { Router } from '@angular/router';
 import { ApiService } from '../../services/api.service';
 import { MyErrorStateMatcher } from '../../util/MyErrorStateMatcher';
@@ -13,10 +12,7 @@ import { ErrorStateMatcher } from '@angular/material/core';
   styleUrls: ['./new-word.component.scss'],
 })
 export class NewWordComponent implements OnInit {
-  socket = io('http://localhost:4000');
-
   wordForm: FormGroup;
-  id = '';
   name = '';
   pronunciation = '';
   meaning = '';
@@ -31,7 +27,6 @@ export class NewWordComponent implements OnInit {
 
   ngOnInit(): void {
     this.wordForm = this.formBuilder.group({
-      id: [null, Validators.required],
       name: [null, Validators.required],
       pronunciation: [null, Validators.required],
       meaning: [null, Validators.required],
@@ -42,10 +37,8 @@ export class NewWordComponent implements OnInit {
     this.isLoadingResults = true;
     this.api.addWord(this.wordForm.value).subscribe(
       (res: any) => {
-        const id = res.id;
         this.isLoadingResults = false;
-        this.socket.emit('updatedata', res);
-        this.router.navigate(['/word-details', id]);
+        this.router.navigate(['/']);
       },
       (err: any) => {
         console.log(err);

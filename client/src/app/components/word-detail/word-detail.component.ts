@@ -32,6 +32,7 @@ export class WordDetailComponent implements OnInit {
   getWordDetail(id: string) {
     this.api.getWordById(id).subscribe((data: any) => {
       this.word = data;
+      console.log(data);
       this.isLoadingResults = false;
     });
   }

@@ -33,7 +33,7 @@ export class EditWordComponent implements OnInit {
 
   ngOnInit(): void {
     this.wordForm = this.formBuilder.group({
-      id: [{ value: '', disabled: true }, Validators.required],
+      id: [{ value: null, disabled: true }, Validators.required],
       name: [null, Validators.required],
       pronunciation: [null, Validators.required],
       meaning: [null, Validators.required],
@@ -46,7 +46,6 @@ export class EditWordComponent implements OnInit {
 
   getWordById(id: any) {
     this.api.getWordById(id).subscribe((data: Word) => {
-      console.log(data);
       this._id = data.id;
       this.wordForm.setValue({
         id: data.id,

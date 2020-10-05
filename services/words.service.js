@@ -13,6 +13,8 @@ const getAll = function () {
 const save = function (word) {
   const storage = storageService.getStorage();
   word.id = storageService.getNewId();
+  word.updated = DateTime.now();
+  word.created = DateTime.now();
   storage.push(word);
 
   storageService.writeStorage(storage);
