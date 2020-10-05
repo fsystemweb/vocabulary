@@ -1,57 +1,32 @@
 ("use strict");
 
-const fs = require("fs");
-
-const getStorage = function () {
-  let rawdata = fs.readFileSync("data.json");
-  return JSON.parse(rawdata);
-};
-
-const getNewId = function () {
-  const storage = getStorage();
-  if (storage.length == null) return 1;
-  const lastIndex = storage.length + 1;
-  const lastWord = storage[lastIndex];
-  return lastWord.id + 1;
-};
+const storageService = require("./storage.service");
 
 const get = function (_id) {
-  return getStorage().find((word) => word.id == _id);
+  return storageService.getStorage().find((word) => word.id == _id);
 };
 
 const getAll = function () {
-  return getStorage();
-};
-
-const writeStorage = function (storage) {
-  const data = JSON.stringify(storage);
-  fs.writeFile("data.json", data, "utf8", function (err) {
-    if (err) {
-      console.log("An error occured while writing JSON Object to File.");
-      return console.log(err);
-    }
-
-    console.log("JSON file has been saved.");
-  });
+  return storageService.getStorage();
 };
 
 const save = function (word) {
-  const storage = getStorage();
-  word.id = getNewId();
+  const storage = storageService.getStorage();
+  word.id = storageService.getNewId();
   storage.push(word);
 
-  writeStorage(storage);
+  storageService.writeStorage(storage);
   return word;
 };
 
 const deleteById = function (id) {
-  const storage = getStorage();
+  const storage = storageService.getStorage();
   const index = storage.findIndex((element) => element.id === id);
   storage.slice(index, 1);
-  writeStorage(storage);
+  storageService.writeStorage(storage);
 
   const message = {
-    alert: "Word with id:"+id" was successfully removed";
+    alert: "Word with id:" + id + " was successfully removed",
   };
 
   return message;
