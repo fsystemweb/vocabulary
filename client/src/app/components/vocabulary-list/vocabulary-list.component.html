@@ -45,13 +45,13 @@
       <!-- Updated Column -->
       <ng-container matColumnDef="updated">
         <th mat-header-cell *matHeaderCellDef>Updated</th>
-        <td mat-cell *matCellDef="let row">{{ row.updated }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.updated | date }}</td>
       </ng-container>
 
       <!-- Created Column -->
       <ng-container matColumnDef="created">
         <th mat-header-cell *matHeaderCellDef>Created</th>
-        <td mat-cell *matCellDef="let row">{{ row.created }}</td>
+        <td mat-cell *matCellDef="let row">{{ row.created | date }}</td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>

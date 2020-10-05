@@ -17,9 +17,15 @@ const deleteById = function (req, res) {
   res.json(wordsService.deleteById(req.params._id));
 };
 
+const updateById = function (req, res) {
+  var body = req.body;
+  res.json(wordsService.updateById(req.params._id, body));
+};
+
 module.exports = {
   get,
   getAll,
   save,
   deleteById,
+  updateById,
 };

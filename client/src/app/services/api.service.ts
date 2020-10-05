@@ -45,7 +45,9 @@ export class ApiService {
   }
 
   updateWord(id: string, word: Word): Observable<any> {
-    return of(vocabularyList);
+    return this.http
+      .put<Word>(`${apiUrl}/words/${id}`, word, httpOptions)
+      .pipe(catchError(this.handleError<Word>('updateWord')));
   }
 
   deleteWord(id: string): Observable<Word> {

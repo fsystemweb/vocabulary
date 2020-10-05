@@ -11,4 +11,6 @@ router.route("/").post(wordsController.save);
 
 router.route("/:_id").delete(wordsController.deleteById);
 
+router.route("/:_id").put(wordsController.updateById);
+
 module.exports = router;

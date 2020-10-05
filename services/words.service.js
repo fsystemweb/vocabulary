@@ -13,10 +13,19 @@ const getAll = function () {
 const save = function (word) {
   const storage = storageService.getStorage();
   word.id = storageService.getNewId();
-  word.updated = DateTime.now();
-  word.created = DateTime.now();
+  word.updated = getCurrentDate();
+  word.created = getCurrentDate();
   storage.push(word);
 
+  storageService.writeStorage(storage);
+  return word;
+};
+
+const updateById = function (id, word) {
+  deleteById(id);
+  const storage = storageService.getStorage();
+  word.updated = getCurrentDate();
+  storage.push(word);
   storageService.writeStorage(storage);
   return word;
 };
@@ -34,9 +43,21 @@ const deleteById = function (id) {
   return message;
 };
 
+const getCurrentDate = function () {
+  let today = new Date();
+  const dd = String(today.getDate()).padStart(2, "0");
+  const mm = String(today.getMonth() + 1).padStart(2, "0"); //January is 0!
+  const yyyy = today.getFullYear();
+
+  today = yyyy + "-" + mm + "-" + dd;
+
+  return today;
+};
+
 module.exports = {
   get,
   getAll,
   save,
   deleteById,
+  updateById,
 };
