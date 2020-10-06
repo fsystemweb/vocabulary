@@ -24,7 +24,7 @@ const save = function (word) {
 const updateById = function (id, word) {
   let storage = storageService.getStorage();
   storage = deleteWord(id, storage);
-  word.id = 2;
+  word.id = id;
   word.updated = getCurrentDate();
   storage.push(word);
   storageService.writeStorage(storage);
