@@ -1,22 +1,20 @@
 import { Injectable } from '@angular/core';
-import { Observable, of, throwError } from 'rxjs';
-import {
-  HttpClient,
-  HttpHeaders,
-  HttpErrorResponse,
-} from '@angular/common/http';
-import { catchError, tap, map } from 'rxjs/operators';
+import { Observable, of } from 'rxjs';
+
+import { catchError } from 'rxjs/operators';
 import { Word } from '../models/Word';
+import { vocabularyList } from '../data/vocabulary';
+import { HttpHeaders, HttpClient } from '@angular/common/http';
+
+const httpOptions = {
+  headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
+};
+const apiUrl = 'http://localhost:3000';
 
 @Injectable({
   providedIn: 'root',
 })
 export class ApiService {
-  httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type': 'application/json' }),
-  };
-  apiUrl = 'http://localhost:3000/api/';
-
   constructor(private http: HttpClient) {}
 
   private handleError<T>(operation = 'operation', result?: T) {
@@ -27,35 +25,35 @@ export class ApiService {
   }
 
   getWords(): Observable<Word[]> {
+    const url = `${apiUrl}/words`;
     return this.http
-      .get<Word[]>(`${this.apiUrl}`)
-      .pipe(catchError(this.handleError('getWords', [])));
+      .get<Word[]>(url)
+      .pipe(catchError(this.handleError<Word[]>(`getWords`)));
   }
 
   getWordById(id: string): Observable<Word> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${apiUrl}/words/${id}`;
     return this.http
       .get<Word>(url)
-      .pipe(catchError(this.handleError<Word>(`getWordById id=${id}`)));
+      .pipe(catchError(this.handleError<Word>(`getId`)));
   }
 
   addWord(word: Word): Observable<Word> {
     return this.http
-      .post<Word>(this.apiUrl, word, this.httpOptions)
+      .post<Word>(`${apiUrl}/words`, word, httpOptions)
       .pipe(catchError(this.handleError<Word>('addWord')));
   }
 
   updateWord(id: string, word: Word): Observable<any> {
-    const url = `${this.apiUrl}/${id}`;
     return this.http
-      .put(url, word, this.httpOptions)
-      .pipe(catchError(this.handleError<any>('updateWord')));
+      .put<Word>(`${apiUrl}/words/${id}`, word, httpOptions)
+      .pipe(catchError(this.handleError<Word>('updateWord')));
   }
 
   deleteWord(id: string): Observable<Word> {
-    const url = `${this.apiUrl}/${id}`;
+    const url = `${apiUrl}/words/${id}`;
     return this.http
-      .delete<Word>(url, this.httpOptions)
+      .delete<Word>(url, httpOptions)
       .pipe(catchError(this.handleError<Word>('deleteWord')));
   }
 }

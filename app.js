@@ -4,26 +4,14 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 
-var indexRouter = require("./routes/index");
-var usersRouter = require("./routes/users");
+var indexRouter = require("./routes/index.route");
+var wordsRouter = require("./routes/words.route");
 
 var app = express();
 
 // add mongo
 var cors = require("cors");
 app.use(cors());
-
-// add mongo
-var mongoose = require("mongoose");
-mongoose
-  .connect("mongodb://localhost/vocabulary", {
-    promiseLibrary: require("bluebird"),
-    useNewUrlParser: true,
-    useUnifiedTopology: true,
-    useCreateIndex: true,
-  })
-  .then(() => console.log("connection successful"))
-  .catch((err) => console.error(err));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
@@ -36,7 +24,7 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
-app.use("/users", usersRouter);
+app.use("/words", wordsRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
