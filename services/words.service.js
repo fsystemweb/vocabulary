@@ -22,18 +22,24 @@ const save = function (word) {
 };
 
 const updateById = function (id, word) {
-  deleteById(id);
-  const storage = storageService.getStorage();
+  let storage = storageService.getStorage();
+  storage = deleteWord(id, storage);
+  word.id = 2;
   word.updated = getCurrentDate();
   storage.push(word);
   storageService.writeStorage(storage);
   return word;
 };
 
-const deleteById = function (id) {
-  let storage = storageService.getStorage();
+const deleteWord = function (id, storage) {
   const index = storage.findIndex((element) => element.id == id);
   storage.splice(index, 1);
+  return storage;
+};
+
+const deleteById = function (id) {
+  let storage = storageService.getStorage();
+  storage = deleteWord(id, storage);
   storageService.writeStorage(storage);
 
   const message = {

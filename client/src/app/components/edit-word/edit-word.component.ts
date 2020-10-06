@@ -64,7 +64,7 @@ export class EditWordComponent implements OnInit {
       (res: any) => {
         const id = res._id;
         this.isLoadingResults = false;
-        this.router.navigate(['/word-details', id]);
+        this.router.navigate(['/']);
       },
       (err: any) => {
         console.log(err);
