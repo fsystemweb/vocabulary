@@ -4,10 +4,19 @@ const expect = chai.expect;
 const faker = require("faker");
 
 var storageService = require("./storage.service");
+var sort = require("../util/sort");
 
 const testData = [
   {
     id: 1,
+    name: faker.lorem.word(),
+    pronunciation: faker.lorem.word(),
+    meaning: faker.lorem.sentence(),
+    updated: faker.date.past(),
+    created: faker.date.past(),
+  },
+  {
+    id: 3,
     name: faker.lorem.word(),
     pronunciation: faker.lorem.word(),
     meaning: faker.lorem.sentence(),
@@ -31,7 +40,19 @@ describe("Unit testing storage service: ", function () {
     result = storageService.getStorage();
 
     expect(stub.calledOnce).to.be.true;
-    expect(result.length).to.equal(2);
+    expect(result.length).to.equal(3);
+    stub.restore();
+  });
+
+  it("unit test getStorage sorted", function () {
+    const stub = sinon.stub(storageService, "getStorage").returns(testData);
+
+    result = storageService.getStorage();
+    result.sort(sort.compareValues("id"));
+
+    expect(stub.calledOnce).to.be.true;
+    expect(result.length).to.equal(3);
+    expect(result[1].id).to.equal(2);
     stub.restore();
   });
 
@@ -40,7 +61,7 @@ describe("Unit testing storage service: ", function () {
 
     result = storageService.getNewId();
 
-    expect(result).to.equal(3);
+    expect(result).to.equal(4);
     stub.restore();
   });
 

@@ -1,10 +1,13 @@
 ("use strict");
+const sort = require("../util/sort");
 
 const fs = require("fs");
 
 const getStorage = function () {
-  let rawdata = fs.readFileSync("data.json");
-  return JSON.parse(rawdata);
+  const rawdata = fs.readFileSync("data.json");
+  let storage = JSON.parse(rawdata);
+  storage.sort(sort.compareValues("id"));
+  return storage;
 };
 
 const getNewId = function () {

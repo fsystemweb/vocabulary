@@ -31,9 +31,9 @@ const updateById = function (id, word) {
 };
 
 const deleteById = function (id) {
-  const storage = storageService.getStorage();
-  const index = storage.findIndex((element) => element.id === id);
-  storage.slice(index, 1);
+  let storage = storageService.getStorage();
+  const index = storage.findIndex((element) => element.id == id);
+  storage.splice(index, 1);
   storageService.writeStorage(storage);
 
   const message = {
