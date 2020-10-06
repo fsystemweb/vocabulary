@@ -7,5 +7,10 @@
 
 ## Run
 
-- npm test
-- npm start
+- npm test (node test)
+- npm start (node dev)
+- npm server (server with angular)
+
+## Build Angular
+
+- npm run build
